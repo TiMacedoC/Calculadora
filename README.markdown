@@ -2,8 +2,5 @@
 
 Calculadora Feita do zero pelo codePEN.io
 
-editado pelo notebook agora
-
 A Pen created on CodePen.io. Original URL: [https://codepen.io/Timacedoc/pen/WNRZXjZ](https://codepen.io/Timacedoc/pen/WNRZXjZ).
-
 

@@ -1,4 +1,4 @@
-var listaNmeros = [];
+var listaNumeros = [];
 
 var operacoes = [];
 
@@ -12,121 +12,132 @@ var point = "";
 
 var mostraNaTela = document.querySelector('#exibir');
 
- var reset = document.querySelector('#divReset');
+var reset = document.querySelector('#divReset');
 
-function exibeBtnReset(){
+function exibeBtnReset() {
   reset.textContent = ""
   reset.insertAdjacentHTML('beforeend', `<button id="reset" onclick="recomecar(3)">RESET</button>`);
 }
 
-function recebePonto(){
-  if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)){
-     mostraNaTela.textContent = "0"
+function recebePonto() {
+  if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)) {
+    mostraNaTela.textContent = "0"
   }
-  if (point != "."){
+  if (point != ".") {
     point = ".";
     mostraNaTela.textContent += point;
   }
   exibeBtnReset()
 };
 
-function guardaNumeros(num){
-    if((numero == 0) && (operacoes.length==0) && (point != ".")) {
+function guardaNumeros(num) {
+  if (isNaN(numero) == true) {
+    numero = 0;
+  };
+  if ((numero == 0) && (operacoes.length == 0) && (point != ".")) {
     mostraNaTela.textContent = "";
   }
-  
-  bloco_1:{
-     while (point != "."){
-     numero = (numero*10) + num;
-     mostraNaTela.textContent += num;
-     break bloco_1;
-  }
-    numero += num / (decimal * 10);
-    decimal = decimal *10;
-    mostraNaTela.textContent += num;
-    }
-exibeBtnReset()
-};
 
-function calculo(op){
-  point = "";
-  decimal = 1;
-  if (numero != 0 /*|| ((numero == 0) && (op == "-")) */){
-  //   if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)){
-  //    mostraNaTela.textContent = ""
-  // }
-    listaNmeros.push(numero);
-    operacoes.push(op);
-    mostraNaTela.textContent += ` ${op} `;
-    numero = 0;
-  } else{
-    mostraNaTela.textContent = ""
-    mostraNaTela.textContent = "error"
-    recomecar()    
+  bloco_1: {
+    while (point != ".") {
+      numero = (numero * 10) + num;
+      mostraNaTela.textContent += num;
+      break bloco_1;
+    }
+    numero += num / (decimal * 10);
+    decimal = decimal * 10;
+    mostraNaTela.textContent += num;
   }
   exibeBtnReset()
 };
 
-function resultado(){
-  result = result + listaNmeros[0];
-  var i = 1; 
-  
-  for(var j =0; j < operacoes.length; j++){
-    if(i < listaNmeros.length){
-          if (operacoes[j] == "+"){
-          result = result + listaNmeros[i];
-          } 
-            if (operacoes[j] == "-"){
-            result = result - listaNmeros[i];
-          }
-            if (operacoes[j] == "÷"){
-            result = result / listaNmeros[i];
-          }
-          else {
-            if (operacoes[j] == "x"){
-            result = result * listaNmeros[i];
-          }
-          }
-      i++;   
-          }
+function calculo(op) {
+  if ((numero == 0) && (operacoes.length == 0) && (point != ".")) {
+    mostraNaTela.textContent = "";
   }
-     
-  if (operacoes[operacoes.length-1] == "-"){
-     result = result - numero;
+
+  point = "";
+  decimal = 1;
+  if (numero != NaN /*|| ((numero == 0) && (op == "-")) */) {
+    //   if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)){
+    //    mostraNaTela.textContent = ""
+    // }
+    numero = numero + 0;
+    listaNumeros.push(numero);
+    operacoes.push(op);
+    mostraNaTela.textContent += ` ${op} `;
+    numero = NaN;
   } else {
-    if (operacoes[operacoes.length-1] == "+"){
-     result = result + numero;
-    } else{
-        if (operacoes[operacoes.length-1] == "x"){
-     result = result * numero;
-      } else{
-        if (operacoes[operacoes.length-1] == "÷"){
-     result = result / numero;
+    mostraNaTela.textContent = ""
+    mostraNaTela.textContent = "error"
+    recomecar()
+  }
+  exibeBtnReset()
+};
+
+function resultado() {
+  result = result + listaNumeros[0];
+  var i = 1;
+
+  for (var j = 0; j < operacoes.length; j++) {
+    if (i < listaNumeros.length) {
+      if (operacoes[j] == "+") {
+        result = result + listaNumeros[i];
       }
+      if (operacoes[j] == "-") {
+        result = result - listaNumeros[i];
+      }
+      if (operacoes[j] == "÷") {
+        result = result / listaNumeros[i];
+      }
+      else {
+        if (operacoes[j] == "x") {
+          result = result * listaNumeros[i];
+        }
+      }
+      i++;
+    }
   }
-  } 
+
+  if (operacoes[operacoes.length - 1] == "-") {
+    result = result - numero;
+  } else {
+    if (operacoes[operacoes.length - 1] == "+") {
+      result = result + numero;
+    } else {
+      if (operacoes[operacoes.length - 1] == "x") {
+        result = result * numero;
+      } else {
+        if (operacoes[operacoes.length - 1] == "÷") {
+          result = result / numero;
+        }
+      }
+    }
   }
-  
-  if(isNaN(result) == true){
+
+  if (isNaN(result) == true) {
     mostraNaTela.textContent = ""
     mostraNaTela.textContent = "error"
   } else {
-      mostraNaTela.textContent += ` = ${result.toFixed(2)}`;
-      }
-  
+    mostraNaTela.textContent += ` = ${result.toFixed(2)}`;
+  }
+
   recomecar()
   exibeBtnReset()
 };
 
-function recomecar(check){
-  if (check == 3){
-     mostraNaTela.textContent = ""
+function recomecar(check) {
+  // o botão reset é o único que chama a função e passa o 3 como parametro. Assim limpando a tela.
+  if (check == 3) {
+    mostraNaTela.textContent = "";
   }
   numero = 0;
-  listaNmeros = [];
+  listaNumeros = [];
   operacoes = [];
   result = 0;
   decimal = 1;
   point = "";
-  reset.textContent = ""
-}
+  reset.textContent = "";
+};
+
+// editado 19/04/2021
