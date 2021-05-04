@@ -34,8 +34,12 @@ function guardaNumeros(num) {
   if (isNaN(numero) == true) {
     numero = 0;
   };
-  if ((numero == 0) && (operacoes.length == 0) && (point != ".")) {
-    mostraNaTela.textContent = "";
+  if (/*(numero == 0) && */(operacoes.length == 0) && (point != ".")) {
+    if (numero == 0) {
+      mostraNaTela.textContent = "";
+    } else {
+      mostraNaTela.textContent = numero
+    }
   }
 
   bloco_1: {
@@ -51,6 +55,48 @@ function guardaNumeros(num) {
   exibeBtnReset()
 };
 
+//Recebe teclado numerico fisico
+window.addEventListener('keydown', (e) => {
+  let tecla = e.code;
+
+  if (tecla.endsWith('0')) {
+    guardaNumeros(0)
+  } else if (tecla.endsWith('1')) {
+    guardaNumeros(1)
+  } else if (tecla.endsWith('2')) {
+    guardaNumeros(2)
+  } else if (tecla.endsWith('3')) {
+    guardaNumeros(3)
+  } else if (tecla.endsWith('4')) {
+    guardaNumeros(4)
+  } else if (tecla.endsWith('5')) {
+    guardaNumeros(5)
+  } else if (tecla.endsWith('6')) {
+    guardaNumeros(6)
+  } else if (tecla.endsWith('7')) {
+    guardaNumeros(7)
+  } else if (tecla.endsWith('8')) {
+    guardaNumeros(8)
+  } else if (tecla.endsWith('9')) {
+    guardaNumeros(9)
+  } else if (tecla.endsWith('Enter') || tecla.endsWith('Equal')) {
+    resultado()
+  } else if (tecla.endsWith('Comma') || tecla.endsWith('Period') || tecla.endsWith('Decimal')) {
+    recebePonto()
+  } else if (tecla.endsWith('Escape')) {
+    recomecar(3)
+  } else if (tecla.endsWith('Multiply')) {
+    calculo('x')
+  } else if (tecla.endsWith('Divide') || tecla.endsWith('IntlRo')) {
+    calculo('÷')
+  } else if (tecla.endsWith('Minus') || tecla.endsWith('Subtract')) {
+    calculo('-')
+  } else if (tecla.endsWith('Add')) {
+    calculo('+')
+  }
+
+});
+
 function calculo(op) {
   if ((numero == 0) && (operacoes.length == 0) && (point != ".")) {
     mostraNaTela.textContent = "";
@@ -58,10 +104,7 @@ function calculo(op) {
 
   point = "";
   decimal = 1;
-  if (numero != NaN /*|| ((numero == 0) && (op == "-")) */) {
-    //   if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)){
-    //    mostraNaTela.textContent = ""
-    // }
+  if (numero != NaN) {
     numero = numero + 0;
     listaNumeros.push(numero);
     operacoes.push(op);
@@ -122,6 +165,7 @@ function resultado() {
     mostraNaTela.textContent += ` = ${result.toFixed(2)}`;
   }
 
+  numero = result;
   recomecar()
   exibeBtnReset()
 };
@@ -129,9 +173,10 @@ function resultado() {
 function recomecar(check) {
   // o botão reset é o único que chama a função e passa o 3 como parametro. Assim limpando a tela.
   if (check == 3) {
+    numero = 0;
     mostraNaTela.textContent = "";
   }
-  numero = 0;
+  //numero = 0;
   listaNumeros = [];
   operacoes = [];
   result = 0;
@@ -140,4 +185,3 @@ function recomecar(check) {
   reset.textContent = "";
 };
 
-// editado 19/04/2021
