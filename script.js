@@ -14,46 +14,7 @@ var mostraNaTela = document.querySelector('#exibir');
 
 var reset = document.querySelector('#divReset');
 
-function exibeBtnReset() {
-  reset.textContent = ""
-  reset.insertAdjacentHTML('beforeend', `<button id="reset" onclick="recomecar(3)">RESET</button>`);
-}
-
-function recebePonto() {
-  if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)) {
-    mostraNaTela.textContent = "0"
-  }
-  if (point != ".") {
-    point = ".";
-    mostraNaTela.textContent += point;
-  }
-  exibeBtnReset()
-};
-
-function guardaNumeros(num) {
-  if (isNaN(numero) == true) {
-    numero = 0;
-  };
-  if (/*(numero == 0) && */(operacoes.length == 0) && (point != ".")) {
-    if (numero == 0) {
-      mostraNaTela.textContent = "";
-    } else {
-      mostraNaTela.textContent = numero
-    }
-  }
-
-  bloco_1: {
-    while (point != ".") {
-      numero = (numero * 10) + num;
-      mostraNaTela.textContent += num;
-      break bloco_1;
-    }
-    numero += num / (decimal * 10);
-    decimal = decimal * 10;
-    mostraNaTela.textContent += num;
-  }
-  exibeBtnReset()
-};
+var deuResultado = false;
 
 //Recebe teclado numerico fisico
 window.addEventListener('keydown', (e) => {
@@ -97,18 +58,79 @@ window.addEventListener('keydown', (e) => {
 
 });
 
+function exibeBtnReset() {
+  reset.textContent = ""
+  reset.insertAdjacentHTML('beforeend', `<button id="reset" onclick="recomecar(3)">RESET</button>`);
+}
+
+function recebePonto() {
+  if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)) {
+    mostraNaTela.textContent = "0"
+  }
+  if (point != ".") {
+    point = ".";
+    mostraNaTela.textContent += point;
+  }
+  exibeBtnReset()
+};
+
+function guardaNumeros(num) {
+  if (isNaN(numero) == true) {
+    numero = 0;
+  };
+  if (/*(numero == 0) && */(operacoes.length == 0) && (point != ".")) {
+    if (numero == 0) {
+      mostraNaTela.textContent = "";
+    }
+    if (deuResultado == true) {
+      deuResultado = false;
+      numero = 0;
+      mostraNaTela.textContent = "";
+    }
+
+  }
+
+  bloco_1: {
+    while (point != ".") {
+      numero = (numero * 10) + num;
+      mostraNaTela.textContent += num;
+      break bloco_1;
+    }
+    numero += num / (decimal * 10);
+    decimal = decimal * 10;
+    mostraNaTela.textContent += num;
+  }
+  exibeBtnReset()
+};
+
 function calculo(op) {
-  if ((numero == 0) && (operacoes.length == 0) && (point != ".")) {
-    mostraNaTela.textContent = "";
+  console.log(numero + op)
+
+  if (isNaN(numero) == true) {
+    numero = 0;
+  }
+
+  if (/*(numero == 0) && */(operacoes.length == 0) && (point != ".")) {
+    if (numero == 0) {
+      mostraNaTela.textContent = "";
+    } else {
+      //só pra checar se coloca ou não casas decimais
+      if (((numero % 1) < 0.009) && ((numero % 1) > - 0.0099)) {
+        mostraNaTela.textContent = numero.toFixed(0);
+      } else { mostraNaTela.textContent = numero.toFixed(2); }
+    }
   }
 
   point = "";
   decimal = 1;
+
   if (numero != NaN) {
     numero = numero + 0;
     listaNumeros.push(numero);
     operacoes.push(op);
-    mostraNaTela.textContent += ` ${op} `;
+    if (numero == 0) {
+      mostraNaTela.textContent += ` 0 ${op} `;
+    } else { mostraNaTela.textContent += ` ${op} `; }
     numero = NaN;
   } else {
     mostraNaTela.textContent = ""
@@ -119,6 +141,13 @@ function calculo(op) {
 };
 
 function resultado() {
+
+  if (isNaN(numero)) {
+    numero = 0;
+  }
+
+  console.log(listaNumeros);
+
   result = result + listaNumeros[0];
   var i = 1;
 
@@ -160,9 +189,14 @@ function resultado() {
 
   if (isNaN(result) == true) {
     mostraNaTela.textContent = ""
-    mostraNaTela.textContent = "error"
+    if (operacoes.length == 0) {
+      result = numero + 0
+      mostraNaTela.textContent = result;
+    } else { mostraNaTela.textContent = "error"; }
   } else {
-    mostraNaTela.textContent += ` = ${result.toFixed(2)}`;
+    if (numero == 0) {
+      mostraNaTela.textContent += ` 0 = ${result.toFixed(2)}`;
+    } else { mostraNaTela.textContent += ` = ${result.toFixed(2)}`; }
   }
 
   numero = result;
@@ -183,5 +217,6 @@ function recomecar(check) {
   decimal = 1;
   point = "";
   reset.textContent = "";
+  deuResultado = true;
 };
 
