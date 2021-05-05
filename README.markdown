@@ -1,8 +1,6 @@
-# Calculadora 2.2.1
+# Calculadora 2.3
 
-Em testes para prosseguir com a refatoração e finalização
+Refatorado esperando futuras features. 
 
 -----------------------------------------
-Calculadora Feita do zero pelo codePEN.io
-
-
+Calculadora Feita do Zero

@@ -10,13 +10,15 @@ var decimal = 1;
 
 var point = "";
 
-var mostraNaTela = document.querySelector('#exibir');
+const mostraNaTela = document.querySelector('#exibir');
 
-var reset = document.querySelector('#divReset');
+const reset = document.querySelector('#divReset');
 
 var deuResultado = false;
 
-//Recebe teclado numerico fisico
+var digitouNumero = false;
+
+//Recebe teclado numérico físico
 window.addEventListener('keydown', (e) => {
   let tecla = e.code;
 
@@ -64,9 +66,16 @@ function exibeBtnReset() {
 }
 
 function recebePonto() {
-  if ((numero == 0) && (result == 0) && (decimal == 1) && (operacoes.length == 0)) {
-    mostraNaTela.textContent = "0"
+  if (!digitouNumero) {
+    mostraNaTela.textContent += " 0";
+    if (deuResultado) {
+      deuResultado = false;
+      numero = 0;
+      mostraNaTela.textContent = "";
+      mostraNaTela.textContent += " 0";
+    }
   }
+
   if (point != ".") {
     point = ".";
     mostraNaTela.textContent += point;
@@ -75,14 +84,17 @@ function recebePonto() {
 };
 
 function guardaNumeros(num) {
+  digitouNumero = true;
+
   if (isNaN(numero) == true) {
     numero = 0;
   };
-  if (/*(numero == 0) && */(operacoes.length == 0) && (point != ".")) {
+
+  if ((operacoes.length == 0) && (point != ".")) {
     if (numero == 0) {
       mostraNaTela.textContent = "";
     }
-    if (deuResultado == true) {
+    if (deuResultado) {
       deuResultado = false;
       numero = 0;
       mostraNaTela.textContent = "";
@@ -110,9 +122,13 @@ function calculo(op) {
     numero = 0;
   }
 
-  if (/*(numero == 0) && */(operacoes.length == 0) && (point != ".")) {
+  if ((operacoes.length == 0) && (point != ".")) {
     if (numero == 0) {
-      mostraNaTela.textContent = "";
+      if (!digitouNumero || deuResultado) {
+        mostraNaTela.textContent = "";
+        mostraNaTela.textContent += " 0";
+        console.log("entrou aqui")
+      }
     } else {
       //só pra checar se coloca ou não casas decimais
       if (((numero % 1) < 0.009) && ((numero % 1) > - 0.0099)) {
@@ -128,15 +144,22 @@ function calculo(op) {
     numero = numero + 0;
     listaNumeros.push(numero);
     operacoes.push(op);
-    if (numero == 0) {
-      mostraNaTela.textContent += ` 0 ${op} `;
-    } else { mostraNaTela.textContent += ` ${op} `; }
+
+    if (digitouNumero || deuResultado) {
+      mostraNaTela.textContent += ` ${op} `
+
+    } else { mostraNaTela.textContent += ` 0 ${op} ` }
     numero = NaN;
+
   } else {
     mostraNaTela.textContent = ""
     mostraNaTela.textContent = "error"
     recomecar()
   }
+
+  digitouNumero = false;
+  deuResultado = false;
+  console.log(digitouNumero);
   exibeBtnReset()
 };
 
@@ -194,10 +217,19 @@ function resultado() {
       mostraNaTela.textContent = result;
     } else { mostraNaTela.textContent = "error"; }
   } else {
-    if (numero == 0) {
-      mostraNaTela.textContent += ` 0 = ${result.toFixed(2)}`;
-    } else { mostraNaTela.textContent += ` = ${result.toFixed(2)}`; }
+    if ((result < 0.006) && (result > - 0.006)) {
+      console.log(result);
+      result = result * (-1);
+      console.log(result);
+    }
+    // verificação naquele modelo {variavel ? () : ()}
+    {
+      digitouNumero ?
+        (mostraNaTela.textContent += ` = ${result.toFixed(2)} `) :
+        (mostraNaTela.textContent += ` 0 = ${result.toFixed(2)} `)
+    }
   }
+
 
   numero = result;
   recomecar()
@@ -210,7 +242,8 @@ function recomecar(check) {
     numero = 0;
     mostraNaTela.textContent = "";
   }
-  //numero = 0;
+
+  digitouNumero = false;
   listaNumeros = [];
   operacoes = [];
   result = 0;
@@ -219,4 +252,3 @@ function recomecar(check) {
   reset.textContent = "";
   deuResultado = true;
 };
-
