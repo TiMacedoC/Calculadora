@@ -78,7 +78,7 @@ function recebePonto() {
 
   if (point != ".") {
     point = ".";
-    mostraNaTela.textContent += point;
+    mostraNaTela.textContent += ",";
   }
   exibeBtnReset()
 };
@@ -116,7 +116,6 @@ function guardaNumeros(num) {
 };
 
 function calculo(op) {
-  console.log(numero + op)
 
   if (isNaN(numero) == true) {
     numero = 0;
@@ -127,13 +126,9 @@ function calculo(op) {
       if (!digitouNumero || deuResultado) {
         mostraNaTela.textContent = "";
         mostraNaTela.textContent += " 0";
-        console.log("entrou aqui")
       }
     } else {
-      //só pra checar se coloca ou não casas decimais
-      if (((numero % 1) < 0.009) && ((numero % 1) > - 0.0099)) {
-        mostraNaTela.textContent = numero.toFixed(0);
-      } else { mostraNaTela.textContent = numero.toFixed(2); }
+      mostraNaTela.textContent = new Intl.NumberFormat('pt-BR', { style: 'decimal' }).format(numero);
     }
   }
 
@@ -159,7 +154,6 @@ function calculo(op) {
 
   digitouNumero = false;
   deuResultado = false;
-  console.log(digitouNumero);
   exibeBtnReset()
 };
 
@@ -168,8 +162,6 @@ function resultado() {
   if (isNaN(numero)) {
     numero = 0;
   }
-
-  console.log(listaNumeros);
 
   result = result + listaNumeros[0];
   var i = 1;
@@ -214,19 +206,19 @@ function resultado() {
     mostraNaTela.textContent = ""
     if (operacoes.length == 0) {
       result = numero + 0
-      mostraNaTela.textContent = result;
+      mostraNaTela.textContent = new Intl.NumberFormat('pt-BR', { style: 'decimal' }).format(result);
     } else { mostraNaTela.textContent = "error"; }
   } else {
     if ((result < 0.006) && (result > - 0.006)) {
-      console.log(result);
       result = result * (-1);
-      console.log(result);
     }
     // verificação naquele modelo {variavel ? () : ()}
     {
       digitouNumero ?
-        (mostraNaTela.textContent += ` = ${result.toFixed(2)} `) :
-        (mostraNaTela.textContent += ` 0 = ${result.toFixed(2)} `)
+        (mostraNaTela.textContent +=
+          ` = ${new Intl.NumberFormat('pt-BR', { style: 'decimal' }).format(result)} `) :
+        (mostraNaTela.textContent +=
+          ` 0 = ${new Intl.NumberFormat('pt-BR', { style: 'decimal' }).format(result)} `)
     }
   }
 
