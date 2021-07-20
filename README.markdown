@@ -1,6 +1,8 @@
-# Calculadora 2.3
+# Calculadora
+### Projeto rodando [aqui](https://timacedoc.github.io/Calculadora/)
 
-Refatorado esperando futuras features. 
+- Projeto pessoal feito do zero para praticar.
+
+- Aguardando novas features. 
 
 -----------------------------------------
-Calculadora Feita do Zero
