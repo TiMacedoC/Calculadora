@@ -2,50 +2,44 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
   <title>Calculadora - 2.2.1</title>
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 </head>
 
 <body>
-  <!-- partial:index.partial.html -->
-  <htm>
 
-    <body>
+  <div class='calc'>
+    <h2 id="exibir"></h2>
 
-      <div class='calc'>
-        <h2 id="exibir"></h2>
+    <div id="divReset">
+    </div>
 
-        <div id="divReset">
-        </div>
+    <div class='numpad'>
+      <button onclick="guardaNumeros(7)">7</button>
+      <button onclick="guardaNumeros(8)">8</button>
+      <button onclick="guardaNumeros(9)">9</button>
+      <button onclick="calculo('+')">➕</button>
+      <button onclick="guardaNumeros(4)">4</button>
+      <button onclick="guardaNumeros(5)">5</button>
+      <button onclick="guardaNumeros(6)">6</button>
+      <button onclick="calculo('-')">➖</button>
+      <button onclick="guardaNumeros(1)">1</button>
+      <button onclick="guardaNumeros(2)">2</button>
+      <button onclick="guardaNumeros(3)">3️</button>
+      <button onclick="calculo('÷')">➗</button>
+      <button onclick="guardaNumeros(0)">0️</button>
+      <button onclick="recebePonto()">◾️</button>
+      <button onclick="resultado()">=</button>
+      <button onclick="calculo('x')">✖️</button>
+    </div>
 
-        <div class='numpad'>
-          <button onclick="guardaNumeros(7)">7</button>
-          <button onclick="guardaNumeros(8)">8</button>
-          <button onclick="guardaNumeros(9)">9</button>
-          <button onclick="calculo('+')">➕</button>
-          <button onclick="guardaNumeros(4)">4</button>
-          <button onclick="guardaNumeros(5)">5</button>
-          <button onclick="guardaNumeros(6)">6</button>
-          <button onclick="calculo('-')">➖</button>
-          <button onclick="guardaNumeros(1)">1</button>
-          <button onclick="guardaNumeros(2)">2</button>
-          <button onclick="guardaNumeros(3)">3️</button>
-          <button onclick="calculo('÷')">➗</button>
-          <button onclick="guardaNumeros(0)">0️</button>
-          <button onclick="recebePonto()">◾️</button>
-          <button onclick="resultado()">=</button>
-          <button onclick="calculo('x')">✖️</button>
-
-
-        </div>
-
-      </div>
-    </body>
-  </htm>
+  </div>
 
   <script src="./script.js"></script>
 

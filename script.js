@@ -244,3 +244,4 @@ function recomecar(check) {
   reset.textContent = "";
   deuResultado = true;
 };
+
